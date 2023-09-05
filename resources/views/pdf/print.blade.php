@@ -44,8 +44,8 @@
 
 </head>
 <body>
-    <div style="height:40px;display: block; text-align: right"><img src="{{public_path('logo/ioxtypo.png')}}" alt="ioxlogo" style="height: 100%;margin-top: 20px"></div>
-    <div style="height:70px;display: block; text-align: center"><img src="{{public_path('logo/Ologo.png')}}" alt="ioxlogo" style="height: 100%;margin-top: 20px"></div>
+    <div style="height:40px;display: block; text-align: right"><img src="{{asset('logo/ioxtypo.png')}}" alt="ioxlogo" style="height: 100%;margin-top: 20px"></div>
+    <div style="height:70px;display: block; text-align: center"><img src="{{asset('logo/Ologo.png')}}" alt="ioxlogo" style="height: 100%;margin-top: 20px"></div>
     <div style="justify-content: center;text-align: center;"><h1><u>Custom Package Details</u></h1></div>
     <h3>Personal Details</h3>
     <table style="padding: 10px; border:1px solid black; border-collapse: collapse">
