@@ -338,6 +338,7 @@ class CustomPackageResource extends Resource
                                         TextInput::make('adult_mattress_price')
                                         ->label('Adult with Matress')
                                         ->required()
+                                        ->default(0)
                                         ->numeric()
                                         ->prefix('₹')
                                         ->suffix('/-'),
@@ -345,6 +346,7 @@ class CustomPackageResource extends Resource
                                         TextInput::make('child_without_mattress_price')
                                         ->label('Child Without Matress')
                                         ->required()
+                                        ->default(0)
                                         ->numeric()
                                         ->prefix('₹')
                                         ->suffix('/-'),
@@ -352,6 +354,7 @@ class CustomPackageResource extends Resource
                                         TextInput::make('child_with_mattress_price')
                                         ->label('Child With Matress')
                                         ->required()
+                                        ->default(0)
                                         ->numeric()
                                         ->prefix('₹')
                                         ->suffix('/-')
@@ -362,18 +365,21 @@ class CustomPackageResource extends Resource
                                         TextInput::make('extra_meal_price')
                                         ->label('Price(Extra Meal) ')
                                         ->numeric()
+                                        ->default(0)
                                         ->prefix('₹')
                                         ->suffix('/-'),
 
                                         TextInput::make('map')
                                         ->label('Price(MAP)')
                                         ->numeric()
+                                        ->default(0)
                                         ->prefix('₹')
                                         ->suffix('/-'),
 
                                         TextInput::make('ap')
                                         ->label('Price(AP)')
                                         ->numeric()
+                                        ->default(0)
                                         ->prefix('₹')
                                         ->suffix('/-')
                                     ])->columns(3)
@@ -413,6 +419,7 @@ class CustomPackageResource extends Resource
                                         'Rangat'=>'Rangat']),
                                     TextInput::make('price')
                                     ->label('Price')
+                                    ->numeric()
                                     ->prefix('₹')
                                     ->suffix('/-')
                                     ->required()
@@ -449,6 +456,7 @@ class CustomPackageResource extends Resource
                                         'Rangat'=>'Rangat']),
                                     TextInput::make('price')
                                     ->label('Price')
+                                    ->numeric()
                                     ->prefix('₹')
                                     ->suffix('/-')
                                 ]),
@@ -493,6 +501,7 @@ class CustomPackageResource extends Resource
                                     ->label('Price')
                                     ->prefix('₹')
                                     ->suffix('/-')
+                                    ->numeric()
                                     ->required(),
                                     Textarea::make('notes')
                                     ->label('Notes (if any)')
