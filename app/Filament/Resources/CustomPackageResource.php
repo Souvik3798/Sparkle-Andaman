@@ -30,6 +30,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -49,7 +52,7 @@ class CustomPackageResource extends Resource
         return $form
             ->schema([
 
-                Tabs::make('General Package')
+         $tab = Tabs::make('General Package')
                 ->tabs([
                     Tab::make('Personal Info')
                         ->schema([
@@ -58,11 +61,12 @@ class CustomPackageResource extends Resource
                             ->disabled()
                             ->live()
                             ->dehydrated(),
-                            TextInput::make('cid')
-                            ->datalist(Customers::all()->pluck('cid'))
-                            ->autocomplete(false)
+                            Select::make('cid')
+                            ->options(Customers::all()->pluck('customer','cid'))
+                            // ->autocomplete(false)
+                            ->searchable()
                             ->live()
-                            ->label('Cutomer ID')
+                            ->label('Cutomer Name')
                             ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
                                 if($operation !== 'create' && $operation !== 'edit'){
                                     return;
@@ -72,6 +76,7 @@ class CustomPackageResource extends Resource
 
                                 foreach ($customers as $customer) {
                                     $custid = $customer->id;
+                                    $cid = $customer->cid;
                                     $cust_name = $customer->customer;
                                     $number = $customer->number;
                                     $adults = $customer->adults;
@@ -83,7 +88,7 @@ class CustomPackageResource extends Resource
 
                                 if($customers->count() > 0){
                                     $set('customers_id', $custid);
-                                    $set('customer', $cust_name);
+                                    $set('customer', $cid);
                                     $set('number', $number);
                                     $set('adults', $adults);
                                     $set('childgreaterthan5', $childgreaterthan5);
@@ -94,16 +99,10 @@ class CustomPackageResource extends Resource
 
                             }),
                             TextInput::make('customer')
-                            ->label('Full Name')
+                            ->label('Customer ID')
                             ->dehydrated()
                             ->disabled()
-                            ->default(function (callable $get){
-                                $c = Customers::find('customers_id');
-                                if(!$c){
-                                    return "";
-                                }
-                                return $c->customer;
-                            }),
+                            ->live(),
                             TextInput::make('number')
                             ->label('Mobile Number')
                             ->prefix('+91')
@@ -528,20 +527,27 @@ class CustomPackageResource extends Resource
                 //
             ])
             ->actions([
-                Action::make('View Doc')
-                ->icon('heroicon-o-eye')
-                ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.view',$record))
-                ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make(),
-                Action::make('Download Pdf')
-                ->icon('heroicon-o-arrow-down-on-square-stack')
-                ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.download',$record))
-                ->openUrlInNewTab(),
+                ActionGroup::make([
+                    Action::make('View Doc')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.view',$record))
+                    ->openUrlInNewTab()
+                    ->color('info'),
+                    Tables\Actions\EditAction::make(),
+                    DeleteAction::make(),
+                    Action::make('Download Pdf')
+                    ->icon('heroicon-o-arrow-down-on-square-stack')
+                    ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.download',$record))
+                    ->openUrlInNewTab(),
+                    ReplicateAction::make()
+                ])
+
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+
                 ]),
             ])
             ->emptyStateActions([
