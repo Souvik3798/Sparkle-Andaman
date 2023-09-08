@@ -267,7 +267,8 @@
             <th>Cruz</th>
             <th>Source</th>
             <th>Destination</th>
-            <th>Price</th>
+            <th>Price adult</th>
+            <th>Price Infant</th>
         </tr>
         @foreach ($record->cruz as $cruz)
         <tr>
@@ -275,7 +276,8 @@
             <td>{{$cruz['cruz']}}</td>
             <td>{{$cruz['source']}}</td>
             <td>{{$cruz['destination']}}</td>
-            <td>{{'₹'.$cruz['price'].'/-'}}</td>
+            <td>{{'₹'.$cruz['price_adult'].'/-'}}</td>
+            <td>{{'₹'.$cruz['price_infant'].'/-'}}</td>
             @php
                 $totalcruz = $totalcruz + $cruz['price']
             @endphp

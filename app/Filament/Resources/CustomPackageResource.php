@@ -4,9 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomPackageResource\Pages;
 use App\Filament\Resources\CustomPackageResource\RelationManagers;
+use App\Models\Cabs;
 use App\Models\Category;
 use App\Models\Customers;
 use App\Models\CustomPackage;
+use App\Models\Ferry;
 use App\Models\GeneralPackage;
 use App\Models\Hotel;
 use App\Models\HotelCategory;
@@ -14,6 +16,7 @@ use App\Models\IternityTemplate;
 use App\Models\RoomCategory;
 use Doctrine\DBAL\Driver\Mysqli\Initializer\Options;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
@@ -34,6 +37,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,6 +48,8 @@ class CustomPackageResource extends Resource
     protected static ?string $model = CustomPackage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Packages';
 
     protected static ?int $navigationSort = 4;
 
@@ -169,6 +175,26 @@ class CustomPackageResource extends Resource
                                     $set('nights', $night);
                                     $set('category_id',$catid);
                                     // $set('image',$img);
+                                    // foreach ($packs as $pack) {
+                                    //     foreach ($pack->iternity as $iternity) {
+                                    //         $days = $iternity['days'];
+                                    //         $destination = $iternity['destination'];
+                                    //         $preset = $iternity['preset'];
+                                    //         $name = $iternity['name'];
+                                    //         $description = $iternity['description'];
+                                    //         foreach ($iternity['specialities'] as $specialities) {
+                                    //             $set('specialities',$specialities);
+                                    //         }
+                                    //         foreach ($iternity['locations'] as $locations) {
+                                    //             $set('locations',$locations);
+                                    //         }
+                                    //         $set('days',$days);
+                                    //         $set('destination',$destination);
+                                    //         $set('preset',$preset);
+                                    //         $set('name',$name);
+                                    //         $set('description',$description);
+                                    //     }
+                                    // }
                                 }
                             })
                             ->required()
@@ -205,7 +231,7 @@ class CustomPackageResource extends Resource
                         Repeater::make('iternity')
                         ->schema([
                             Select::make('days')
-                            ->label('Select Number of Days')
+                            ->label('Day')
                             ->required()
                             ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                             Select::make('destination')
@@ -276,7 +302,7 @@ class CustomPackageResource extends Resource
                                             'Rangat'=>'Rangat'])
                                         ->required(),
                                         Select::make('days')
-                                        ->label('Select Number of Days')
+                                        ->label('Day')
                                         ->required()
                                         ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                         Select::make('no_of_room')
@@ -326,6 +352,9 @@ class CustomPackageResource extends Resource
                                         ->numeric()
                                         ->prefix('₹')
                                         ->suffix('/-')
+                                        ->required(),
+                                        DatePicker::make('date')
+                                        ->label('Date')
                                         ->required()
 
 
@@ -393,14 +422,28 @@ class CustomPackageResource extends Resource
                                 Repeater::make('cruz')
                                 ->schema([
                                     Select::make('days')
-                                    ->label('Select Number of Days')
+                                    ->label('Day')
                                     ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                     Select::make('cruz')
-                                    ->options([
-                                        "Makruzz"=>"Makruzz",
-                                        "ITT"=>"ITT",
-                                        "Nautika"=>"Nautika"
-                                    ]),
+                                    ->options(Ferry::all()->pluck('Title','ID'))
+                                    ->live()
+                                    ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
+                                        if($operation !== 'create' && $operation !== 'edit'){
+                                            return;
+                                        }
+
+
+                                        $ferries = Ferry::where('ID',$state)->get();
+
+
+                                        foreach ($ferries as $ferry) {
+                                            $price = $ferry->startingPrice;
+                                        }
+
+                                        if($ferries->count() > 0){
+                                            $set('price_adult', $price);
+                                        }
+                                    }),
                                     Select::make('source')
                                     ->label('Select Source')
                                     ->options([
@@ -417,9 +460,16 @@ class CustomPackageResource extends Resource
                                         'Havelock'=>'Havelock',
                                         'Diglipur'=>'Diglipur',
                                         'Rangat'=>'Rangat']),
-                                    TextInput::make('price')
-                                    ->label('Price')
+                                    TextInput::make('price_adult')
+                                    ->label('Price for Adult')
                                     ->numeric()
+                                    ->prefix('₹')
+                                    ->suffix('/-')
+                                    ->required(),
+                                    TextInput::make('price_infant')
+                                    ->label('Price for Infant')
+                                    ->numeric()
+                                    ->default(0)
                                     ->prefix('₹')
                                     ->suffix('/-')
                                     ->required()
@@ -430,14 +480,28 @@ class CustomPackageResource extends Resource
                                 Repeater::make('vehicle')
                                 ->schema([
                                     Select::make('days')
-                                    ->label('Select Number of Days')
+                                    ->label('Day')
                                     ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                     Select::make('vehicle')
-                                    ->options([
-                                        "Scorpio S5"=>"Scorpio 5S",
-                                        "Swift Desire 5S"=>"Swift Desire 5S",
-                                        "Ertica 8S"=>"Ertica 8S"
-                                    ]),
+                                    ->options(Cabs::all()->pluck('Title','ID'))
+                                    ->live()
+                                    ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
+                                        if($operation !== 'create' && $operation !== 'edit'){
+                                            return;
+                                        }
+
+
+                                        $vehicles = Cabs::where('ID',$state)->get();
+
+
+                                        foreach ($vehicles as $vehicle) {
+                                            $price = $vehicle->price;
+                                        }
+
+                                        if($vehicles->count() > 0){
+                                            $set('price', $price);
+                                        }
+                                    }),
                                     Select::make('source')
                                     ->label('Select Source')
                                     ->options([
@@ -469,7 +533,7 @@ class CustomPackageResource extends Resource
                                 Repeater::make('addons')
                                 ->schema([
                                     Select::make('days')
-                                    ->label('Select Number of Days')
+                                    ->label('Day')
                                     ->required()
                                     ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                     Select::make('addon')
@@ -508,6 +572,11 @@ class CustomPackageResource extends Resource
                                 ])->columns(3),
                             ])
                         ]),
+                        Tab::make('Voucher Conformation')
+                        ->schema([
+                            Checkbox::make('voucher')
+                            ->label('Tick to Conform voucher'),
+                        ])
 
                 ])->columnSpanFull(),
 
@@ -519,17 +588,31 @@ class CustomPackageResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('customers.customer')
-                ->label('Customer'),
+                ->label('Customer')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('name')
-                ->label('Package'),
+                ->label('Package')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('customers.number')
                 ->label('Contact')
-                ->prefix('+91-'),
+                ->prefix('+91-')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('days')
-                ->label('Days'),
+                ->label('Days')
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('created_at')
                 ->label('Time')
                 ->date()->since()
+                ->sortable()
+                ->searchable(),
+                BooleanColumn::make('voucher')
+                ->label('Voucher')
+                ->sortable()
+                ->searchable(),
                 //
             ])
             ->filters([

@@ -31,6 +31,7 @@ return new class extends Migration
             $table->json('cruz');
             $table->json('vehicle');
             $table->json('addons');
+            $table->boolean('voucher')->default(false);
             $table->timestamps();
         });
     }
