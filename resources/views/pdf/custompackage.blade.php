@@ -197,7 +197,7 @@
                     @foreach ($record->rooms as $room)
                         @if ($room['hotel_type'] == intval($hotel))
                             @php $hotels = \App\Models\Hotel::find($room['hotel_name']) @endphp
-                            {{-- <img src="https://www.sparkleandaman.com/uploads/hotel/{{$hotels->hotelimages->img}}" height="200px" alt="" srcset=""><br> --}}
+                            <img src="https://www.sparkleandaman.com/uploads/hotel/{{$hotels->hotelimages->img}}" height="200px" alt="" srcset=""><br>
 
                             <table>
                                 <tr>
