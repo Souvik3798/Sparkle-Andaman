@@ -154,8 +154,8 @@
                     {{$speciality.', '}}
                 @endforeach locations:
                 @foreach ($iternity['locations'] as $location)
-                {{$location.', '}}
-            @endforeach
+                    {{$location.', '}}
+                @endforeach
             </td>
             {{-- <td>{{$iternity['preset']}}</td>
             <td>{{$iternity['name']}}</td>
@@ -220,21 +220,19 @@
                     <td>{{$room['days']}}</td>
                     <td>{{$room['no_of_room']}}</td>
                     <td>
-                        <?php $temp = \App\Models\HotelCategory::find($room['hotel_type']) ?>
+                        @php $temp = \App\Models\HotelCategory::find($room['hotel_type']) @endphp
                         {{$temp->category}}
                     </td>
                     <td>
-                        <?php $temp = \App\Models\Hotel::find($room['hotel_name']) ?>
+                        @php $temp = \App\Models\Hotel::find($room['hotel_name']) @endphp
                         {{$temp->hotelName}}
                     </td>
                     <td>
-                        <?php $temp = \App\Models\RoomCategory::find($room['room_type']) ?>
+                        @php $temp = \App\Models\RoomCategory::find($room['room_type']) @endphp
                         {{$temp->category}}
                     </td>
                     <td>{{'₹ '.$room['price']}}</td>
-                    <?php
-                            $totalroom = $totalroom + ($room['price'] * $room['days']);
-                    ?>
+                    @php $totalroom = $totalroom + ($room['price'] * $room['days']); @endphp
                     <td> {{'₹ '.$room['adult_mattress_price']}} </td>
                     @php  $totaladultmatress =  $totaladultmatress + ($room['adult_mattress_price'] * $room['days']); @endphp
                     <td> {{'₹ '.$room['child_without_mattress_price']}} </td>

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomPackageResource\Pages;
 use App\Filament\Resources\CustomPackageResource\RelationManagers;
+use App\Models\Addon;
 use App\Models\Cabs;
 use App\Models\Category;
 use App\Models\Customers;
@@ -537,11 +538,7 @@ class CustomPackageResource extends Resource
                                     ->required()
                                     ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                     Select::make('addon')
-                                    ->options([
-                                        "Flower Bed"=>"Flower Bed",
-                                        "Candle Light Dinner"=>"Candle Light Dinner",
-                                        "Entry Monuments"=>"Entry Monuments"
-                                    ])
+                                    ->options(Addon::all()->pluck('name','id'))
                                     ->required(),
                                     Select::make('source')
                                     ->label('Select Source')

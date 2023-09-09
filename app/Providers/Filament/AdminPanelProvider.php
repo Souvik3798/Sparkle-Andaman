@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
@@ -30,12 +31,12 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->topNavigation()
             ->colors([
-                'primary' => Color::Purple,
+                'primary' => env('APP_COLOR'),
             ])
             ->brandName('Sparkle Andaman')
             ->navigationItems([
                 NavigationItem::make('Home')
-                ->url('http:\\www.sparkleandaman.com')
+                ->url('http:\\www.sparkleandaman.com\admin')
                 ->icon('heroicon-o-home')
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
