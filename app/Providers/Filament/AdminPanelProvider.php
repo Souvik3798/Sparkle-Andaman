@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->topNavigation()
+            ->profile()
             ->colors([
                 'primary' => env('APP_COLOR'),
             ])
