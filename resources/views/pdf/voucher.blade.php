@@ -126,7 +126,7 @@
             </tr>
             <tr>
                 <th>Reference</th>
-                <td>{{$record->refrence}}</td>
+                <td>{{$record->reference}}</td>
                 <th>Payment Status</th>
                 <td>Paid: Rs. {{$record->amount_paid}}<br>Balance: Rs. {{$record->total_amount-$record->amount_paid}}</td>
             </tr>
