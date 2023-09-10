@@ -223,9 +223,15 @@ class CustomPackageResource extends Resource
                             TagsInput::make('exclusions')
                             ->required()
                             ->hintColor('green'),
-                            FileUpload::make('image')
-                            ->disk('public')->directory('custom')
-                            ->image()
+                            TextInput::make('margin')
+                            ->label('Enter Margin Value')
+                            ->required()
+                            ->numeric()
+                            ->default(5)
+                            ,
+                            // FileUpload::make('image')
+                            // ->disk('public')->directory('custom')
+                            // ->image()
                         ])->columns(4),
                     Tab::make('Add Iternity')
                     ->schema([
@@ -282,7 +288,9 @@ class CustomPackageResource extends Resource
                             TagsInput::make('specialities')
                             ->required(),
                             TagsInput::make('locations')
-                            ->required()
+                            ->required(),
+                            DatePicker::make('date')
+                            ->label('Date')
                         ])->columns(3)
                     ]),
                     Tab::make('Add Rooms')

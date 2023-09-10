@@ -187,19 +187,10 @@
         <!-- Room Details Section -->
         <div class="section">
             <div class="section-title">Room Details</div>
-            @foreach ($hotelrates as $hotel => $rate)
-                @php
-                    $cat = \App\Models\HotelCategory::find($hotel)
-                @endphp
 
-                <h1><u>{{$cat->category}}</u></h1>
-                    Total Cost: <span style="font-style:italic"> ₹ {{$hotelrates[$hotel]}}/- </span><br><br>
-                    @foreach ($record->rooms as $room)
-                        @if ($room['hotel_type'] == intval($hotel))
-                            @php $hotels = \App\Models\Hotel::find($room['hotel_name']) @endphp
-                            <img src="https://www.sparkleandaman.com/uploads/hotel/{{$hotels->hotelimages->img}}" height="200px" alt="" srcset=""><br>
-
+            @foreach ($record->rooms as $room)
                             <table>
+
                                 <tr>
                                     <th>Location</th>
                                     <th>No of Days</th>
@@ -254,16 +245,9 @@
                                     $totalap = $totalap + ($room['ap']*$room['days'])
                                 @endphp
                                 </tr>
+
                             </table>
-
-
-                        @endif
-                    @endforeach
-            @endforeach
-
-                @foreach ($record->rooms as $room)
-
-                @endforeach
+                            @endforeach
 
         </div>
 

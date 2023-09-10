@@ -72,7 +72,7 @@ class CustomerpdfController extends Controller
         foreach ($record->rooms as $room) {
             // dd($room['hotel_type']);
             $roomtype = HotelCategory::all();
-            for ($i=1; $i < count($roomtype); $i++) {
+            for ($i=1; $i <= count($roomtype); $i++) {
                 if($room['hotel_type'] == $i){
                     if(!array_key_exists($i,$hotelrates)){
                         $hotelrates[$i] =  ($room['price']/2) + $room['adult_mattress_price'] + $room['child_without_mattress_price'] + $room['child_with_mattress_price'] + $room['extra_meal_price'] + $room['map'] + $room['ap'] * $room['no_of_room']*$totalcustomers;
@@ -101,7 +101,7 @@ class CustomerpdfController extends Controller
 
 
 
-        $pdf = Pdf::loadView('pdf.custompackage',compact(['record','hotelrates']));
+        $pdf = Pdf::loadView('pdf.package',compact(['record','hotelrates']));
         return $pdf->download($record->customers->customer.'.pdf');
     }
     public function view(CustomPackage $record){
@@ -165,7 +165,7 @@ class CustomerpdfController extends Controller
         foreach ($record->rooms as $room) {
             // dd($room['hotel_type']);
             $roomtype = HotelCategory::all();
-            for ($i=1; $i < count($roomtype); $i++) {
+            for ($i=1; $i <= count($roomtype); $i++) {
                 if($room['hotel_type'] == $i){
                     if(!array_key_exists($i,$hotelrates)){
                         $hotelrates[$i] =  ($room['price']/2) + $room['adult_mattress_price'] + $room['child_without_mattress_price'] + $room['child_with_mattress_price'] + $room['extra_meal_price'] + $room['map'] + $room['ap'] * $room['no_of_room']*$totalcustomers;
@@ -192,10 +192,8 @@ class CustomerpdfController extends Controller
              $hotelrates[$rate] = $hotelrates[$rate] + $adultcruz + $childcruz + $totalvehicle + $totaladdon;
 
         }
-
-        $extras = $adultcruz +$childcruz + $totalvehicle + $totaladdon;
         // dd($hotelrates,$test,$extras);
 
-        return view('pdf.custompackage',compact(['record','hotelrates']));
+        return view('pdf.package',compact(['record','hotelrates']));
     }
 }

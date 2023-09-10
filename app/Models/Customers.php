@@ -29,4 +29,8 @@ class Customers extends Model
     public function custompackage(): HasMany{
         return $this->hasMany(CustomPackage::class);
     }
+
+    public function payment():HasMany{
+        return $this->hasMany(payment::class);
+    }
 }

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->json('vehicle');
             $table->json('addons');
             $table->boolean('voucher')->default(false);
+            $table->integer('margin')->nullable();
             $table->timestamps();
         });
     }
