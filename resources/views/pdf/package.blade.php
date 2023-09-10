@@ -124,7 +124,7 @@
             @php
                 $cat = \App\Models\HotelCategory::find($hotel)
             @endphp
-          <h5 class="m-0">{{$cat->category}} Cost ₹.{{$hotelrates[$hotel] + (($record->margin/100)*$hotelrates[$hotel])}}/- (Excluding 5% GST)
+          <h5 class="m-0">{{$cat->category}} Cost Rs.{{$hotelrates[$hotel] + (($record->margin/100)*$hotelrates[$hotel])}}/- (Excluding 5% GST)
           </h5>
         </div>
       </div>
