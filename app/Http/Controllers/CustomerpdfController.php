@@ -101,8 +101,8 @@ class CustomerpdfController extends Controller
 
 
 
-        $pdf = Pdf::loadView('pdf.package',compact(['record','hotelrates']));
-        return $pdf->download($record->customers->customer.'.pdf')->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = Pdf::loadView('pdf.package',compact(['record','hotelrates']))->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download($record->customers->customer.'.pdf');
     }
     public function view(CustomPackage $record){
 
