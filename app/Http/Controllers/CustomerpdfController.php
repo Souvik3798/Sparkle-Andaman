@@ -101,7 +101,7 @@ class CustomerpdfController extends Controller
 
 
 
-        $pdf = Pdf::loadView('pdf.package',compact(['record','hotelrates']));
+        $pdf = Pdf::loadView('pdf.custompackage',compact(['record','hotelrates']));
         return $pdf->download($record->customers->customer.'.pdf');
     }
     public function view(CustomPackage $record){
@@ -194,6 +194,6 @@ class CustomerpdfController extends Controller
         }
         // dd($hotelrates,$test,$extras);
 
-        return view('pdf.package',compact(['record','hotelrates']));
+        return view('pdf.custompackage',compact(['record','hotelrates']));
     }
 }
