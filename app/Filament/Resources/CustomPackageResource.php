@@ -632,10 +632,10 @@ class CustomPackageResource extends Resource
                     ->color('info'),
                     Tables\Actions\EditAction::make(),
                     DeleteAction::make(),
-                    Action::make('Download Pdf')
-                    ->icon('heroicon-o-arrow-down-on-square-stack')
-                    ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.download',$record))
-                    ->openUrlInNewTab(),
+                    // Action::make('Download Pdf')
+                    // ->icon('heroicon-o-arrow-down-on-square-stack')
+                    // ->url(fn(CustomPackage $record) => route('CustomPackage.pdf.download',$record))
+                    // ->openUrlInNewTab(),
                     ReplicateAction::make()
                 ])
 
