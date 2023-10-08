@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\IternityTemplateResource\Pages;
 use App\Filament\Resources\IternityTemplateResource\RelationManagers;
+use App\Models\IternityTemplate;
 use App\Models\preset;
 use Filament\Forms;
 use Filament\Forms\Components\TagsInput;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class IternityTemplateResource extends Resource
 {
-    protected static ?string $model = preset::class;
+    protected static ?string $model = IternityTemplate::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
