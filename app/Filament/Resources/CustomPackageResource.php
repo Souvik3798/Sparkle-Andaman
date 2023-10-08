@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomPackageResource\Pages;
-use App\Filament\Resources\CustomPackageResource\RelationManagers;
 use App\Models\Addon;
 use App\Models\Cabs;
 use App\Models\Category;
@@ -11,19 +10,15 @@ use App\Models\Customers;
 use App\Models\CustomPackage;
 use App\Models\destination;
 use App\Models\Ferry;
-use App\Models\GeneralPackage;
 use App\Models\Hotel;
 use App\Models\HotelCategory;
 use App\Models\IternityTemplate;
 use App\Models\PackageTemplate;
 use App\Models\RoomCategory;
-use Doctrine\DBAL\Driver\Mysqli\Initializer\Options;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
