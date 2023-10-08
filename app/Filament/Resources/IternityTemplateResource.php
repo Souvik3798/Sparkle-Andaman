@@ -51,8 +51,10 @@ class IternityTemplateResource extends Resource
                 ->label('Title'),
                 TextColumn::make('Description')
                 ->limit(50),
-                TextColumn::make('Specialties'),
+                TextColumn::make('Specialties')
+                ->wrap(),
                 TextColumn::make('locationCovered')
+                ->wrap()
             ])
             ->filters([
                 //
