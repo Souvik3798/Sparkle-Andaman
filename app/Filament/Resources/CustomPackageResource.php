@@ -229,10 +229,6 @@ class CustomPackageResource extends Resource
                             ->label('Select Destinations')
                             ->options(destination::all()->pluck('Title','ID'))
                             ->required(),
-                            Select::make('preset')
-                            ->label('Select Preset Title')
-                            ->options(preset::all()->pluck('Title','ID'))
-                            ->required(),
                             TextInput::make('name')
                             ->label('Title')
                             ->datalist(preset::all()->pluck('Title'))
