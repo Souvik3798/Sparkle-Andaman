@@ -18,4 +18,9 @@ class IternityTemplate extends Model
                 'locationCovered'
     ];
 
+    protected $casts = [
+        'Specialties'=>'array',
+        'locationCovered'=>'array'
+    ];
+
 }
