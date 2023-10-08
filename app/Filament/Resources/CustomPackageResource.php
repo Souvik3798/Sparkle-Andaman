@@ -251,7 +251,7 @@ class CustomPackageResource extends Resource
                                 }
 
                                 if($packs->count() > 0){
-                                    $set('description', $description);
+                                    $set('description', str_replace("[<p>,</p>]","",$description));
                                     $set('specialities', $specialities);
                                     $set('locations', $locations);
                                 }
