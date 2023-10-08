@@ -232,6 +232,11 @@ class CustomPackageResource extends Resource
                             Select::make('preset')
                             ->label('Select Preset Title')
                             ->options(preset::all()->pluck('Title','ID'))
+                            ->required(),
+                            TextInput::make('name')
+                            ->label('Title')
+                            ->datalist(preset::all()->pluck('Title'))
+                            ->live()
                             ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
                                 if($operation !== 'create' && $operation !== 'edit'){
                                     return;
@@ -251,11 +256,6 @@ class CustomPackageResource extends Resource
                                     $set('locations', $locations);
                                 }
                             })
-                            ->live()
-                            ->required(),
-                            TextInput::make('name')
-                            ->label('Title')
-                            ->live()
                             ->required(),
                             Textarea::make('description')
                             ->required(),
