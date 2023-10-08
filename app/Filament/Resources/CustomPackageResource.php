@@ -14,6 +14,7 @@ use App\Models\Hotel;
 use App\Models\HotelCategory;
 use App\Models\IternityTemplate;
 use App\Models\PackageTemplate;
+use App\Models\preset;
 use App\Models\RoomCategory;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
@@ -230,12 +231,7 @@ class CustomPackageResource extends Resource
                             ->required(),
                             Select::make('preset')
                             ->label('Select Preset Title')
-                            ->options([
-                                'Port Blair Arrival'=>'Port Blair Arrival',
-                                'Hop to Neil'=>'Hop to Neil',
-                                'Hop to Havelock'=> 'Hop to Havelock',
-                                'Hop to Diglipur'=>'Hop to Diglipur',
-                                'Hop to Rangat'=>'Hop to Rangat'])
+                            ->options(preset::all()->pluck('Title','ID'))
                             ->required(),
                             TextInput::make('name')
                             ->label('Title')
