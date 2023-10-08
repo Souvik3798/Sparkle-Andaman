@@ -43,7 +43,7 @@ class PackageTemplateResource extends Resource
                 // ->required(),
                 Select::make('category_id')
                             ->label('Category')
-                            ->options(Category::all()->pluck('name','id'))
+                            ->options(Category::all()->pluck('category','id'))
                             ->required(),
                             TextInput::make('days')
                             ->required()
