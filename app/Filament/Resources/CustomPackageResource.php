@@ -250,8 +250,9 @@ class CustomPackageResource extends Resource
                                     $locations = $pack->locationCovered;
                                 }
 
+                                $s = ["<p>","</p>","<i>","</i>"];
                                 if($packs->count() > 0){
-                                    $set('description', str_replace("[<p>,</p>]","",$description));
+                                    $set('description', str_replace($s,"",$description));
                                     $set('specialities', $specialities);
                                     $set('locations', $locations);
                                 }
