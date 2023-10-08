@@ -260,9 +260,9 @@ class CustomPackageResource extends Resource
                             ->required(),
                             Textarea::make('description')
                             ->required(),
-                            TextInput::make('specialities')
+                            Textarea::make('specialities')
                             ->required(),
-                            TextInput::make('locations')
+                            Textarea::make('locations')
                             ->required(),
                             DatePicker::make('date')
                             ->label('Date')
