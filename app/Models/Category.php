@@ -10,9 +10,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name'
-    ];
+    protected $table = 'package_category';
 
 
     public function packagetemplate(): HasMany{
