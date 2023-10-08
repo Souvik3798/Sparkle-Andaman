@@ -67,7 +67,7 @@ class CustomPackageResource extends Resource
                             ->live()
                             ->dehydrated(),
                             Select::make('cid')
-                            ->options(Customers::all()->pluck('customer','cid'))
+                            ->relationship('customers','customer')
                             // ->autocomplete(false)
                             ->searchable()
                             ->live()
