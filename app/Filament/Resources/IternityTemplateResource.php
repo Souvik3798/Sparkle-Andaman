@@ -50,8 +50,8 @@ class IternityTemplateResource extends Resource
                 TextColumn::make('Title')
                 ->label('Title'),
                 TextColumn::make('Description'),
-                TagsColumn::make('Specialties'),
-                TagsColumn::make('locationCovered')
+                TextColumn::make('Specialties'),
+                TextColumn::make('locationCovered')
             ])
             ->filters([
                 //
