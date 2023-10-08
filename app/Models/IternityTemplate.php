@@ -9,15 +9,6 @@ class IternityTemplate extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'specialities',
-        'locations'
-    ];
+    protected $table = 'mst_template';
 
-    protected $casts = [
-        'specialities' => 'array',
-        'locations' => 'array'
-    ];
 }

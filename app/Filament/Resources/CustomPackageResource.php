@@ -235,19 +235,19 @@ class CustomPackageResource extends Resource
                             ->required(),
                             TextInput::make('name')
                             ->label('Title')
-                            ->datalist(IternityTemplate::all()->pluck('name'))
+                            ->datalist(preset::all()->pluck('Title'))
                             ->live()
                             ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
                                 if($operation !== 'create' && $operation !== 'edit'){
                                     return;
                                 }
 
-                                $packs = IternityTemplate::where('name',$state)->get();
+                                $packs = preset::where('Title',$state)->get();
 
                                 foreach ($packs as $pack) {
-                                    $description = $pack->description;
-                                    $specialities = $pack->specialities;
-                                    $locations = $pack->locations;
+                                    $description = $pack->Description;
+                                    $specialities = $pack->specialties;
+                                    $locations = $pack->locationCovered;
                                 }
 
                                 if($packs->count() > 0){
