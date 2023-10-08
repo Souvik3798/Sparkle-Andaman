@@ -226,7 +226,7 @@ class CustomPackageResource extends Resource
                             ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                             Select::make('destination')
                             ->label('Select Destinations')
-                            ->options(destination::all()->pluck('Title','id'))
+                            ->options(destination::all()->pluck('Title','ID'))
                             ->required(),
                             Select::make('preset')
                             ->label('Select Preset Title')
@@ -281,7 +281,7 @@ class CustomPackageResource extends Resource
                                     ->schema([
                                         Select::make('location')
                                         ->label('Select Location')
-                                        ->options(destination::all()->pluck('Title','id'))
+                                        ->options(destination::all()->pluck('Title','ID'))
                                         ->required(),
                                         Select::make('days')
                                         ->label('Day')
@@ -428,10 +428,10 @@ class CustomPackageResource extends Resource
                                     }),
                                     Select::make('source')
                                     ->label('Select Source')
-                                    ->options(destination::all()->pluck('Title','id')),
+                                    ->options(destination::all()->pluck('Title','ID')),
                                     Select::make('destination')
                                     ->label('Select Destinations')
-                                    ->options(destination::all()->pluck('Title','id')),
+                                    ->options(destination::all()->pluck('Title','ID')),
                                     TextInput::make('price_adult')
                                     ->label('Price for Adult')
                                     ->numeric()
@@ -476,7 +476,7 @@ class CustomPackageResource extends Resource
                                     }),
                                     Select::make('source')
                                     ->label('location')
-                                    ->options(destination::all()->pluck('Title','id')),
+                                    ->options(destination::all()->pluck('Title','ID')),
                                     TextInput::make('price')
                                     ->label('Price')
                                     ->numeric()
@@ -517,11 +517,11 @@ class CustomPackageResource extends Resource
                                     ->required(),
                                     Select::make('source')
                                     ->label('Select Source')
-                                    ->options(destination::all()->pluck('Title','id'))
+                                    ->options(destination::all()->pluck('Title','ID'))
                                     ->required(),
                                     Select::make('destination')
                                     ->label('Select Destinations')
-                                    ->options(destination::all()->pluck('Title','id'))
+                                    ->options(destination::all()->pluck('Title','ID'))
                                     ->required(),
                                     Textarea::make('notes')
                                     ->label('Notes (if any)')
