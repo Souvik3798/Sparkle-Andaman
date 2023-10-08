@@ -145,7 +145,7 @@ class CustomPackageResource extends Resource
                         ->schema([
                             Select::make('category_id')
                             ->label('Category')
-                            ->options(Category::all()->pluck('name','id'))
+                            ->options(Category::all()->pluck('category','id'))
                             ->live()
                             ->required(),
                             TextInput::make('name')
