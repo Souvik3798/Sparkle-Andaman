@@ -246,7 +246,7 @@ class CustomPackageResource extends Resource
 
                                 foreach ($packs as $pack) {
                                     $description = $pack->Description;
-                                    $specialities = $pack->specialties;
+                                    $specialities = $pack->Specialties;
                                     $locations = $pack->locationCovered;
                                 }
 
