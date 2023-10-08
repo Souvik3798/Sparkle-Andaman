@@ -67,6 +67,7 @@
       </div>
     </div>
     <br><br><hr><br>
+    <div style="break-before: always"></div>
     <div class="card">
       <div class="card-header"><div class="row align-items-center trip-title justify-content-center">
         <div class="col-5 col-md-auto text-center text-md-center">

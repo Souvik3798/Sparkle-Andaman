@@ -59,11 +59,9 @@ class CustomerResource extends Resource
                 ->default(0)
                 ->numeric(),
                 DatePicker::make('dateofarrival')
-                ->label('Date of Arrival')
-                ->required(),
+                ->label('Date of Arrival'),
                 DatePicker::make('dateofdeparture')
-                ->label('Date of Departure')
-                ->required(),
+                ->label('Date of Departure'),
 
 
             ]);

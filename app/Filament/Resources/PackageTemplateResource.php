@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PackageTemplateResource\Pages;
 use App\Filament\Resources\PackageTemplateResource\RelationManagers;
+use App\Models\Category;
 use App\Models\PackageCategory;
 use App\Models\PackageTemplate;
 use Filament\Forms;
@@ -40,20 +41,30 @@ class PackageTemplateResource extends Resource
                 // Select::make('Category')
                 // ->options(PackageCategory::all()->pluck('name','id')->toArray())
                 // ->required(),
-                TextInput::make('name')
-                ->label('Title')
-                ->required(),
-                Textarea::make('description')
-                ->required(),
-                TextInput::make('cost')
-                ->label('Package Cost')
-                ->required()
-                ->Placeholder('Eg: 20000'),
-                TagsInput::make('inclusions')
-                ->required(),
-                TagsInput::make('exclusions')
-                ->required()
-                ->hintColor('green')
+                Select::make('category_id')
+                            ->label('Category')
+                            ->options(Category::all()->pluck('name','id'))
+                            ->required(),
+                            TextInput::make('days')
+                            ->required()
+                            ->label('Number of Days')
+                            ->numeric(),
+                            TextInput::make('nights')
+                            ->required()
+                            ->label('Number of Nights')
+                            ->numeric(),
+                            TextInput::make('name')
+                            ->label('Title')
+                            ->live()
+                            ->required()
+                            ->autocomplete('off'),
+                            Textarea::make('description')
+                            ->required(),
+                            TagsInput::make('inclusions')
+                            ->required(),
+                            TagsInput::make('exclusions')
+                            ->required()
+                            ->hintColor('green'),
             ]);
     }
 
@@ -63,9 +74,8 @@ class PackageTemplateResource extends Resource
             ->columns([
                 TextColumn::make('name')
                 ->label('Title'),
-                TextColumn::make('cost')
-                ->label('Package Cost'),
                 TagsColumn::make('inclusions'),
+
                 TagsColumn::make('exclusions'),
             ])
             ->filters([

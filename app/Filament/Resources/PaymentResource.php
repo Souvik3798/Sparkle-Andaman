@@ -38,6 +38,7 @@ class PaymentResource extends Resource
                 Select::make('customers_id')
                 ->relationship('customers','customer')
                 ->live()
+                ->searchable()
                 ->required(),
                 Select::make('custom_package')
                 ->options(function(callable $get){
@@ -186,8 +187,8 @@ class PaymentResource extends Resource
                 ->prefix('₹')
                 ->numeric()
                 ->required(),
-                TextInput::make('bank')
-                ->label('Bank details')
+                Textarea::make('bank')
+                ->label('Transaction details')
                 ->required(),
                 DatePicker::make('payment_date')
                 ->required(),

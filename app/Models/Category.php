@@ -15,7 +15,7 @@ class Category extends Model
     ];
 
 
-    public function generalpackage(): HasMany{
-        return $this->hasMany(GeneralPackage::class);
+    public function packagetemplate(): HasMany{
+        return $this->hasMany(PackageTemplate::class);
     }
 }

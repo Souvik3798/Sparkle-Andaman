@@ -9,11 +9,13 @@ use App\Models\Cabs;
 use App\Models\Category;
 use App\Models\Customers;
 use App\Models\CustomPackage;
+use App\Models\destination;
 use App\Models\Ferry;
 use App\Models\GeneralPackage;
 use App\Models\Hotel;
 use App\Models\HotelCategory;
 use App\Models\IternityTemplate;
+use App\Models\PackageTemplate;
 use App\Models\RoomCategory;
 use Doctrine\DBAL\Driver\Mysqli\Initializer\Options;
 use Filament\Forms;
@@ -145,65 +147,51 @@ class CustomPackageResource extends Resource
                 ])->columns(3),
                     Tab::make('Add Package')
                         ->schema([
+                            Select::make('category_id')
+                            ->label('Category')
+                            ->options(Category::all()->pluck('name','id'))
+                            ->live()
+                            ->required(),
                             TextInput::make('name')
                             ->label('Title')
-                            ->datalist(GeneralPackage::all()->pluck('name'))
+                            ->datalist(function(callable $get){
+                                if(!$get('category_id')){
+                                    return PackageTemplate::all()->pluck('name');
+                                }
+                                else{
+                                    return PackageTemplate::where('category_id',$get('category_id'))->pluck('name');
+                                }
+                            })
                             ->live()
                             ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
                                 if($operation !== 'create' && $operation !== 'edit'){
                                     return;
                                 }
 
-                                $packs = GeneralPackage::where('name',$state)->get();
+
+                                    $packs = PackageTemplate::where('name',$state)->get();
+
 
                                 foreach ($packs as $pack) {
                                     $description = $pack->description;
-                                    $cost = $pack->cost;
                                     $day = $pack->days;
                                     $night = $pack->nights;
                                     $inclusions = $pack->inclusions;
                                     $exclusions = $pack->exclusions;
                                     $catid = $pack->category_id;
-                                    $img = $pack->image;
                                 }
 
                                 if($packs->count() > 0){
                                     $set('description', $description);
-                                    $set('cost', $cost);
                                     $set('inclusions', $inclusions);
                                     $set('exclusions', $exclusions);
                                     $set('days', $day);
                                     $set('nights', $night);
                                     $set('category_id',$catid);
-                                    // $set('image',$img);
-                                    // foreach ($packs as $pack) {
-                                    //     foreach ($pack->iternity as $iternity) {
-                                    //         $days = $iternity['days'];
-                                    //         $destination = $iternity['destination'];
-                                    //         $preset = $iternity['preset'];
-                                    //         $name = $iternity['name'];
-                                    //         $description = $iternity['description'];
-                                    //         foreach ($iternity['specialities'] as $specialities) {
-                                    //             $set('specialities',$specialities);
-                                    //         }
-                                    //         foreach ($iternity['locations'] as $locations) {
-                                    //             $set('locations',$locations);
-                                    //         }
-                                    //         $set('days',$days);
-                                    //         $set('destination',$destination);
-                                    //         $set('preset',$preset);
-                                    //         $set('name',$name);
-                                    //         $set('description',$description);
-                                    //     }
-                                    // }
                                 }
                             })
                             ->required()
                             ->autocomplete('off'),
-                            Select::make('category_id')
-                            ->label('Category')
-                            ->options(Category::all()->pluck('name','id'))
-                            ->required(),
                             TextInput::make('days')
                             ->required()
                             ->label('Number of Days')
@@ -243,12 +231,7 @@ class CustomPackageResource extends Resource
                             ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                             Select::make('destination')
                             ->label('Select Destinations')
-                            ->options([
-                                'Port Blair'=>'Port Blair',
-                                'Neil'=>'Neil',
-                                'Havelock'=>'Havelock',
-                                'Diglipur'=>'Diglipur',
-                                'Rangat'=>'Rangat'])
+                            ->options(destination::all()->pluck('Title','id'))
                             ->required(),
                             Select::make('preset')
                             ->label('Select Preset Title')
@@ -303,12 +286,7 @@ class CustomPackageResource extends Resource
                                     ->schema([
                                         Select::make('location')
                                         ->label('Select Location')
-                                        ->options([
-                                            'Port Blair'=>'Port Blair',
-                                            'Neil'=>'Neil',
-                                            'Havelock'=>'Havelock',
-                                            'Diglipur'=>'Diglipur',
-                                            'Rangat'=>'Rangat'])
+                                        ->options(destination::all()->pluck('Title','id'))
                                         ->required(),
                                         Select::make('days')
                                         ->label('Day')
@@ -401,21 +379,21 @@ class CustomPackageResource extends Resource
                                     Fieldset::make('Meal Plan')
                                     ->schema([
                                         TextInput::make('extra_meal_price')
-                                        ->label('Price(Extra Meal) ')
+                                        ->label('CP Plan|Room')
                                         ->numeric()
                                         ->default(0)
                                         ->prefix('₹')
                                         ->suffix('/-'),
 
                                         TextInput::make('map')
-                                        ->label('Price(MAP)')
+                                        ->label('MAP Plan|Room')
                                         ->numeric()
                                         ->default(0)
                                         ->prefix('₹')
                                         ->suffix('/-'),
 
                                         TextInput::make('ap')
-                                        ->label('Price(AP)')
+                                        ->label('AP Plan|Room')
                                         ->numeric()
                                         ->default(0)
                                         ->prefix('₹')
@@ -455,20 +433,10 @@ class CustomPackageResource extends Resource
                                     }),
                                     Select::make('source')
                                     ->label('Select Source')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat']),
+                                    ->options(destination::all()->pluck('Title','id')),
                                     Select::make('destination')
                                     ->label('Select Destinations')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat']),
+                                    ->options(destination::all()->pluck('Title','id')),
                                     TextInput::make('price_adult')
                                     ->label('Price for Adult')
                                     ->numeric()
@@ -512,21 +480,8 @@ class CustomPackageResource extends Resource
                                         }
                                     }),
                                     Select::make('source')
-                                    ->label('Select Source')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat']),
-                                    Select::make('destination')
-                                    ->label('Select Destinations')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat']),
+                                    ->label('location')
+                                    ->options(destination::all()->pluck('Title','id')),
                                     TextInput::make('price')
                                     ->label('Price')
                                     ->numeric()
@@ -547,30 +502,31 @@ class CustomPackageResource extends Resource
                                     ->options(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20']),
                                     Select::make('addon')
                                     ->options(Addon::all()->pluck('name','id'))
-                                    ->required(),
-                                    Select::make('source')
-                                    ->label('Select Source')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat'])
-                                    ->required(),
-                                    Select::make('destination')
-                                    ->label('Select Destinations')
-                                    ->options([
-                                        'Port Blair'=>'Port Blair',
-                                        'Neil'=>'Neil',
-                                        'Havelock'=>'Havelock',
-                                        'Diglipur'=>'Diglipur',
-                                        'Rangat'=>'Rangat'])
+                                    ->live()
+                                    ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
+                                        if($operation !== 'create' && $operation !== 'edit'){
+                                            return;
+                                        }
+                                        $p = Addon::where('id',$state)->get();
+                                        foreach($p as $p){
+                                            $set('price', $p->price);
+                                        }
+                                    })
                                     ->required(),
                                     TextInput::make('price')
                                     ->label('Price')
                                     ->prefix('₹')
                                     ->suffix('/-')
+                                    ->live()
                                     ->numeric()
+                                    ->required(),
+                                    Select::make('source')
+                                    ->label('Select Source')
+                                    ->options(destination::all()->pluck('Title','id'))
+                                    ->required(),
+                                    Select::make('destination')
+                                    ->label('Select Destinations')
+                                    ->options(destination::all()->pluck('Title','id'))
                                     ->required(),
                                     Textarea::make('notes')
                                     ->label('Notes (if any)')

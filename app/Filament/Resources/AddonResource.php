@@ -27,7 +27,9 @@ class AddonResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->label('Please Save Addon')
+                ->label('Please Save Addon'),
+                TextInput::make('price')
+                ->label('Price')
             ]);
     }
 
@@ -36,7 +38,9 @@ class AddonResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('Addon Name')
+                ->label('Addon Name'),
+                TextColumn::make('price')
+                ->label('Addon Rate')
             ])
             ->filters([
                 //
