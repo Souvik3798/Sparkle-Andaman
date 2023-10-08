@@ -36,9 +36,9 @@ class IternityTemplateResource extends Resource
                 ->required(),
                 Textarea::make('Description')
                 ->required(),
-                TagsInput::make('Specialties')
+                Textarea::make('Specialties')
                 ->required(),
-                TagsInput::make('locationCovered')
+                Textarea::make('locationCovered')
                 ->required()
             ]);
     }
