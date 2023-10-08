@@ -198,10 +198,7 @@ class CustomPackageResource extends Resource
                             ->numeric(),
                             Textarea::make('description')
                             ->required(),
-                            TextInput::make('cost')
-                            ->label('Package Cost')
-                            ->required()
-                            ->Placeholder('Eg: 20000'),
+
                             TagsInput::make('inclusions')
                             ->required(),
                             TagsInput::make('exclusions')
@@ -509,13 +506,10 @@ class CustomPackageResource extends Resource
                                     ->numeric()
                                     ->required(),
                                     Select::make('source')
-                                    ->label('Select Source')
+                                    ->label('Location')
                                     ->options(destination::all()->pluck('Title','ID'))
                                     ->required(),
-                                    Select::make('destination')
-                                    ->label('Select Destinations')
-                                    ->options(destination::all()->pluck('Title','ID'))
-                                    ->required(),
+
                                     Textarea::make('notes')
                                     ->label('Notes (if any)')
                                 ])->columns(3),

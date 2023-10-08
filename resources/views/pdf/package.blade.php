@@ -91,16 +91,12 @@
 
             <div class="col-4 col-sm-3 text-center company-info"> <span class="text-4 font-weight-500 text-dark mt-1 mt-lg-0">Day</span> {{$iternity['days']}} <span class="text-muted d-block">{{date('F d, Y',strtotime($iternity['date']))}}</span></div>
             <div class="col-4 col-sm-6 text-center time-info mt-3 mt-sm-0"> <span class="text-5 font-weight-500 text-dark"> Arrival at {{$iternity['destination']}}, famous for
-                @foreach ($iternity['specialities'] as $speciality)
-                    {{$speciality.', '}}
-                @endforeach
+                {{$iternity['specialities']}}
 
             </span> <span class="text-muted d-block"></span> </div>
             <div class="col-4 col-sm-3 text-center time-info mt-3 mt-sm-0"> <span class="text-5 font-weight-500 text-dark">
 
-                @foreach ($iternity['locations'] as $location)
-                    {{strtoupper($location).', '}}
-                @endforeach
+                {{$iternity['locations']}}
 
             </span> </div>
 
@@ -233,12 +229,9 @@
                 <div class="card">
                 <div class="card-header">
                     <strong class="font-weight-600"><strong>Day {{$iternity['days']}}:</strong> Arrival at {{$iternity['destination']}}, locations:
-                    @foreach ($iternity['locations'] as $location)
-                        {{$location.', '}}
-                    @endforeach famous for
-                    @foreach ($iternity['specialities'] as $speciality)
-                        {{$speciality.', '}}
-                    @endforeach</strong>
+                    {{$iternity['locations']}}
+                         famous for
+                    {{$iternity['specialities']}}</strong>
                 </div>
                 <div class="card-body">
                     <div class="row">
