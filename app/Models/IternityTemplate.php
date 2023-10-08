@@ -11,4 +11,11 @@ class IternityTemplate extends Model
 
     protected $table = 'mst_template';
 
+    protected $fillable = [
+                'Title',
+                'Description',
+                'Specialties',
+                'locationCovered'
+    ];
+
 }
