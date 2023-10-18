@@ -20,6 +20,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -67,7 +68,7 @@ class CustomPackageResource extends Resource
                             ->live()
                             ->dehydrated(),
                             Select::make('cid')
-                            ->options(Customers::all()->pluck('customer'))
+                            ->options(Customers::all()->pluck('customer','cid'))
                             // ->autocomplete(false)
                             ->searchable()
                             ->live()
@@ -272,7 +273,8 @@ class CustomPackageResource extends Resource
                                         Select::make('location')
                                         ->label('Select Location')
                                         ->options(destination::all()->pluck('Title','Title'))
-                                        ->required(),
+                                        ->required()
+                                        ->live(),
                                         Select::make('days')
                                         ->label('Day')
                                         ->required()
@@ -296,7 +298,12 @@ class CustomPackageResource extends Resource
                                             if(!$hotelcategory){
                                                 return Hotel::whereNotNUll('hotelName')->pluck('hotelName','id');
                                             }
-                                            return $hotelcategory->hotel->pluck('hotelName','id');
+                                            $loc = destination::select('ID')->where('Title',$get('location'))->get();
+                                            foreach ($loc as $loc) {
+                                                $des = $loc->ID;
+                                            }
+                                            // dd($des);
+                                            return $hotelcategory->hotel->where('Location',$des)->pluck('hotelName','id');
                                         })
                                         ->required()
                                         ->live()
@@ -327,9 +334,7 @@ class CustomPackageResource extends Resource
                                         ->required(),
                                         DatePicker::make('date')
                                         ->label('Date')
-                                        ->required()
-
-
+                                        ->required(),
                                     ])->columns(3),
                                 ]),
                                 Section::make('Extras')

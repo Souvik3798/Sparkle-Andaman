@@ -157,7 +157,16 @@
                     <div class="row mt-n3">
                         <div class="col-sm-6 mt-3">
                             <strong class="font-weight-600">
-                                <img src="https://www.sparkleandaman.com/uploads/hotel/{{$hotels->hotelimages->img}}" height="200px" alt="" srcset="">
+                                @php
+
+                                     $hi = \App\Models\HotelImages::where('hotelID',$hotels->id)->get();
+                                    //  dd($hi);
+                                @endphp
+
+                                @foreach ($hi as $images)
+                                    <img src="https://www.sparkleandaman.com/uploads/hotel/{{$images->img}}" height="200px" alt="" srcset="">
+                                @endforeach
+
                             </strong>
                         </div>
                     </div>
