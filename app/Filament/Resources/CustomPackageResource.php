@@ -293,19 +293,18 @@ class CustomPackageResource extends Resource
                                         ->live(),
                                         Select::make('hotel_name')
                                         ->label('Hotel Name')
-                                        // ->options(function(callable $get){
-                                        //     $hotelcategory = HotelCategory::find($get('hotel_type'));
-                                        //     if(!$hotelcategory){
-                                        //         return Hotel::whereNotNUll('hotelName')->pluck('hotelName','id');
-                                        //     }
-                                        //     $loc = destination::select('ID')->where('Title',$get('location'))->get();
-                                        //     foreach ($loc as $loc) {
-                                        //         $des = $loc->ID;
-                                        //     }
-                                        //     // dd($des);
-                                        //     return $hotelcategory->hotel->where('Location',$des)->pluck('hotelName','id');
-                                        // })
-                                        ->options(['peer resort'=>'peer resort','Haywizz'=>'Haywizz'])
+                                        ->options(function(callable $get){
+                                            $hotelcategory = HotelCategory::find($get('hotel_type'));
+                                            if(!$hotelcategory){
+                                                return Hotel::whereNotNUll('hotelName')->pluck('hotelName','id');
+                                            }
+                                            $loc = destination::select('ID')->where('Title',$get('location'))->get();
+                                            foreach ($loc as $loc) {
+                                                $des = $loc->ID;
+                                            }
+                                            // dd($des);
+                                            return $hotelcategory->hotel->where('Location',$des)->pluck('hotelName','id');
+                                        })
                                         ->required()
                                         ->live()
                                         ->afterStateUpdated(function(string $operation, $state, Forms\Set $set){
