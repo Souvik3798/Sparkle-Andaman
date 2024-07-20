@@ -302,7 +302,7 @@ class CustomPackageResource extends Resource
                                             foreach ($loc as $loc) {
                                                 $des = $loc->ID;
                                             }
-                                            // dd($des);
+                                            dd($des);
                                             return $hotelcategory->hotel->where('Location',$des)->pluck('hotelName','id');
                                         })
                                         ->required()
